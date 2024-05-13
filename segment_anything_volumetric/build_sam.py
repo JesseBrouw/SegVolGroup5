@@ -32,8 +32,19 @@ def build_sam_vit_3d(args, checkpoint=None):
         image_size=args.spatial_size,
     )
 
+def build_sam_vit_group5(args, checkpoint=None):
+    print('build_sam_vit_group5...')
+    return _build_sam(
+        image_encoder_type='group5',
+        embed_dim = 768,
+        patch_size=args.patch_size,
+        checkpoint=checkpoint,
+        image_size=args.spatial_size,
+    )
+
 sam_model_registry = {
     "vit": build_sam_vit_3d,
+    "group_5": build_sam_vit_group5
 }
 
 

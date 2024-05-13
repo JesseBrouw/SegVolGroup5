@@ -3,6 +3,8 @@ import torch
 import argparse
 from datetime import datetime
 from network.model import SegVol
+import lib.SegVol.segment_anything_volumetric.modeling.ViT_group5 as ViT_group5
+
 from segment_anything_volumetric import sam_model_registry
 import torch.multiprocessing as mp
 import shutil
@@ -44,6 +46,8 @@ def set_parse():
     parser.add_argument('-num_epochs', type=int, default=500)
     parser.add_argument('-batch_size', type=int, default=4)
     parser.add_argument("--use_pseudo_label", default=True, type=bool)
+
+    parser.add_argument("--use_group_5_ViT", default=False, type=bool)
     args = parser.parse_args()
     return args
 
