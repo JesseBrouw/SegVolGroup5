@@ -47,7 +47,7 @@ def set_parse():
     parser.add_argument('-batch_size', type=int, default=4)
     parser.add_argument("--use_pseudo_label", default=True, type=bool)
 
-    parser.add_argument("--use_group_5_ViT", default=False, type=bool)
+    parser.add_argument("--use_group_5_vit", default=False, type=bool)
     args = parser.parse_args()
     return args
 
@@ -139,7 +139,10 @@ def main_worker(gpu, ngpus_per_node, args):
     )
     print('init_process_group finished')
 
-    sam_model = sam_model_registry['vit'](args=args, checkpoint=None)   # checkpoint for pretrained vit
+    if args.use_group_5_vit:
+        sam_model = sam_model_registry['group5']
+    else:
+        sam_model = sam_model_registry['vit'](args=args, checkpoint=None)   # checkpoint for pretrained vit
     segvol_model = SegVol(
                         image_encoder=sam_model.image_encoder, 
                         mask_decoder=sam_model.mask_decoder,

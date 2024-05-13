@@ -16,6 +16,8 @@ from .modeling import (
     TwoWayTransformer,
 )
 import numpy as np
+from .modeling.ViT_group5 import ViT as ViT_group5
+
 from .modeling.image_encoder_swin import SwinTransformer
 from monai.networks.nets import ViT
 from monai.networks.nets.swin_unetr import SwinTransformer as SwinViT
@@ -55,24 +57,43 @@ def _build_sam(
     checkpoint,
     image_size,
 ):
-    mlp_dim = 3072
-    num_layers = 12
-    num_heads = 12
-    pos_embed = 'perceptron'
-    dropout_rate = 0.0
-    
-    image_encoder=ViT(
-        in_channels=1,
-        img_size=image_size,
-        patch_size=patch_size,
-        hidden_size=embed_dim,
-        mlp_dim=mlp_dim,
-        num_layers=num_layers,
-        num_heads=num_heads,
-        pos_embed=pos_embed,
-        classification=False,
-        dropout_rate=dropout_rate,
-    )
+
+    if image_encoder_type == 'group5':
+        mlp_dim = 3072
+        num_layers = 12
+        num_heads = 12
+        pos_embed = 'learnable'
+        dropout_rate = 0.0 
+        image_encoder=ViT_group5(
+            in_channels=1,
+            img_size=image_size,
+            patch_size=patch_size,
+            hidden_size=embed_dim,
+            mlp_dim=mlp_dim,
+            num_layers=num_layers,
+            num_heads=num_heads,
+            pos_embed_type=pos_embed,
+            classification=False,
+            dropout_rate=dropout_rate,
+        )
+    else:
+        mlp_dim = 3072
+        num_layers = 12
+        num_heads = 12
+        pos_embed = 'perceptron'
+        dropout_rate = 0.0 
+        image_encoder=ViT(
+            in_channels=1,
+            img_size=image_size,
+            patch_size=patch_size,
+            hidden_size=embed_dim,
+            mlp_dim=mlp_dim,
+            num_layers=num_layers,
+            num_heads=num_heads,
+            pos_embed=pos_embed,
+            classification=False,
+            dropout_rate=dropout_rate,
+        )
     image_embedding_size = [int(item) for item in (np.array(image_size) / np.array(patch_size))]
 
     if checkpoint is not None:
