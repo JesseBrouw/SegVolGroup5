@@ -216,6 +216,7 @@ def build_concat_dataset(root_path, dataset_codes, transform):
     print(f'CombinationDataset loaded, dataset size: {CombinationDataset_len}')
     return UnionDataset(ConcatDataset(concat_dataset), concat_dataset)
 
+
 def get_loader(args):
     train_transform = transforms.Compose(
         [

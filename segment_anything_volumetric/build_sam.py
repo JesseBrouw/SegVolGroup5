@@ -72,7 +72,7 @@ def _build_sam(
             mlp_dim=mlp_dim,
             num_layers=num_layers,
             num_heads=num_heads,
-            pos_embed_type=pos_embed,
+            pos_embed=pos_embed,
             classification=False,
             dropout_rate=dropout_rate,
         )
