@@ -38,6 +38,7 @@ class UniversalDataset(Dataset):
         self.test_mode = test_mode
         self.bbox_shift = 10 if test_mode else 0
         print(organ_list)
+        
         organ_list.remove('background')
         self.target_list = organ_list
 
